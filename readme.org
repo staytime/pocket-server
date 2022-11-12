@@ -1,0 +1,25 @@
+#+TITLE: Pocket server
+#+DATE: <2022-10-29 Sat>
+#+Author: elliott.syu@gmail.com
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
+
+
+
+Web & DNS server in one Raspberry Pi Pico W
+
+* Feuature list
+1. Access Point.
+2. self hosting Web server.
+3. Web interface for Intercting with A LED.
+4. DNS server for easy pick up.
+
+* TODO Feature & bug fix [0/1]
+- [ ] Refind phew package dns handling
+
+* Related data
+- https://github.com/pimoroni/phew
+- https://www.recantha.co.uk/blog/?p=21398
+- https://www.youtube.com/watch?v=laeV6GgGJMA
+- https://fcc.report/FCC-ID/2ABCB-PICOW/
+- https://getbootstrap.com/docs/4.0/examples/
+- https://www.raspberrypi.com/products/raspberry-pi-pico/
