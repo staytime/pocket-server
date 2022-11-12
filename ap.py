@@ -22,15 +22,18 @@ AP_SSID = 'picow'
 AP_PASSWORD = 'pw123456'
 ADC_CVT_FACT = 3.3 / (2 ** 16 - 1)
 LED_CMD_FLAG = {"on", "off"}
-led = Pin("LED", Pin.OUT)
 
+
+led = Pin("LED", Pin.OUT)
+led_status = 0
 
 sensor_temp = machine.ADC(4)
 
-def reading_chip_temperature():
+def chip_temperature():
     reading = sensor_temp.read_u16() * ADC_CVT_FACT
     return 27 - (reading - 0.706) / 0.001721
 
+# add support for JSON
 class JSONResponse(server.Response):
     def __init__(self, content = None, status = 200, headers={}):
         self.status = 404
@@ -41,8 +44,11 @@ class JSONResponse(server.Response):
 
         if isinstance(content, dict):
             content = json.dumps(content)
+
+        # treating string as raw json
         elif isinstance(content, str):
             pass
+
         else:
             content = "{}"
 
@@ -73,6 +79,8 @@ while not wlan.active():
     led.off()
     time.sleep_ms(LED_QUICK_DUR)
 
+led.off()
+led_status = 0
 dns.run_catchall(IP_ADDRESS)
 print('AP init sucessed')
 print(wlan.ifconfig())
@@ -86,6 +94,8 @@ def serve_404_page(request):
     r = server.serve_file("/templates/404_page.html")
     r.status = 404
     return r
+
+
 
 # for ios device
 # detail:  https://stackoverflow.com/questions/50220605/ios-how-can-i-detect-that-the-current-wifi-needs-to-go-through-a-confirmation
@@ -107,38 +117,52 @@ def ios_hostsport(request):
 def landing_page(request):
     return render_template("/templates/home.html")
 
-@server.route("/about", methods=("GET", ))
-def about_page(request):
-    #https://github.com/staytime/pocket-server
-    temperature = reading_chip_temperature()
-    return f"hello! {temperature}"
 
 
 @server.route("/toggle", methods=("GET", ))
-@server.route("/toggle/<status>", methods=("GET", ))
-def on_board_led_on(request, status = None):
-    if status is None:
-        led.toggle()
-        time.sleep_ms(30)
-        return jsonify(201, message = "OK")
+def on_board_led_toggle(request):
+    global led_status
+    if led_status == 0:
+        led_status = 1
+        led.on()
 
+    else:
+        led_status = 0
+        led.off()
+
+    return jsonify(201, message = "OK", led_status = led_status)
+
+
+
+@server.route("/toggle/<status>", methods=("GET", ))
+def on_board_led_set(request, status):
+    global led_status
     status = str(status).lower()
     if status in LED_CMD_FLAG:
-        time.sleep_ms(30)
         if status == "on":
             led.on()
+            led_status = 1
+
         else:
             led.off()
+            led_status = 0
 
-        return jsonify(201, message = "OK")
+        return jsonify(201, message = "OK", led_status = led_status)
+
     else:
         return jsonify(201, message = "Parameter incorrect")
 
-@server.route("/toggle-status", methods=("GET", ))
-def on_board_led_off(request):
-    time.sleep_ms(100)
-    led.off()
-    return "OK", 201
+
+
+@server.route("/board-status", methods=("GET", ))
+def get_board_status(request):
+    global led_status
+    return jsonify(200, \
+                   message = "OK", \
+                   led_status = led_status, \
+                   chip_temperature = chip_temperature())
+
+
 
 # add support for static file
 @server.route("/static/<folder>/<static_file>", ("GET", ))
