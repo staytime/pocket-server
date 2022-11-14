@@ -53,7 +53,6 @@ class JSONResponse(server.Response):
             content = "{}"
 
         headers["Content-Type"] = "application/json"
-        headers["Content-Type"] = "application/json"
         headers["Content-Length"] = len(content)
 
         self.body = content
@@ -150,7 +149,7 @@ def on_board_led_set(request, status):
         return jsonify(201, message = "OK", led_status = led_status)
 
     else:
-        return jsonify(201, message = "Parameter incorrect")
+        return jsonify(400, message = "Parameter incorrect")
 
 
 
@@ -168,7 +167,7 @@ def get_board_status(request):
 @server.route("/static/<folder>/<static_file>", ("GET", ))
 def serve_static_file(request, folder, static_file):
     __ = f"/static/{folder}/{static_file}"
-    logging.info(f"> serve static file {__}")
+    # logging.info(f"> serve static file {__}")
     if server.file_exists(__):
         r = server.serve_file(__)
         r.add_header("Cache-Control", "public, max-age=604800")
