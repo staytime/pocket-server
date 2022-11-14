@@ -5,13 +5,13 @@
 
 
 
-Web & DNS server in one Raspberry Pi Pico W
+Web interfaced IOT device in one Raspberry Pi Pico W
 
 * Feuature list
 1. Access Point.
-2. self hosting Web server.
+2. Self hosting Web interface.
 3. Web interface for Intercting with A LED.
-4. DNS server for easy pick up.
+4. DNS server for easy access.
 
 * TODO Feature & bug fix [0/1]
 - [ ] Refind phew package dns handling
@@ -23,3 +23,7 @@ Web & DNS server in one Raspberry Pi Pico W
 - https://fcc.report/FCC-ID/2ABCB-PICOW/
 - https://getbootstrap.com/docs/4.0/examples/
 - https://www.raspberrypi.com/products/raspberry-pi-pico/
+- https://www.svgrepo.com/svg/201886/light-bulb
+- https://www.youtube.com/watch?v=VEWdxvIphnI&t=257s
+- https://www.raspberrypi.com/products/raspberry-pi-pico/
+- https://icons.getbootstrap.com/icons/github/

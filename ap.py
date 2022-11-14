@@ -62,6 +62,9 @@ def jsonify(status, **kwargs) -> JSONResponse:
 
 # setup wifi AP
 wlan = access_point(AP_SSID, password = None)
+wlan.config(pm = 0xa11140)      # Diable powersave mode
+
+
 
 # setup network
 # detail: https://docs.micropython.org/en/latest/esp8266/tutorial/network_basics.html
