@@ -170,7 +170,9 @@ def serve_static_file(request, folder, static_file):
     __ = f"/static/{folder}/{static_file}"
     logging.info(f"> serve static file {__}")
     if server.file_exists(__):
-        return server.serve_file(__)
+        r = server.serve_file(__)
+        r.add_header("Cache-Control", "public, max-age=604800")
+        return r
     else:
         return serve_404_page(request)
 
