@@ -259,7 +259,7 @@ async def _handle_request(reader, writer):
 
   except Exception as e:
     logging.error(e)
-    response = Response("some when wrong!!")
+    response = Response("some when wrong!!, please restart device", status = 500)
 
   # if shorthand body generator only notation used then convert to tuple
   if type(response).__name__ == "generator":
