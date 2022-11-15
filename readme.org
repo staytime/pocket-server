@@ -7,6 +7,9 @@
 
 Web interfaced IOT device in one Raspberry Pi Pico W
 
+#+ATTR_ORG: :width 60%
+[[file:assets/thumbnial.png]]
+
 * Feuature list
 1. Access Point.
 2. Self hosting Web interface.
