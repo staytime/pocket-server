@@ -93,9 +93,14 @@ print(wlan.ifconfig())
 
 @server.catchall()
 def serve_404_page(request):
-    r = server.serve_file("/templates/404_page.html")
-    r.status = 404
-    return r
+    __ = ''
+    try:
+        __ += request.headers['host']
+    except:
+        logging.error('headers host not included')
+
+    __ += request.uri
+    return render_template("/templates/404_page.html", url = __), 406
 
 
 
